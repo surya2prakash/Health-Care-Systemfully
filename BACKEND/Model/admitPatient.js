@@ -28,6 +28,11 @@ const bookseatSchema = new mongoose.Schema({
         required:true
     },
 }],
+status:{
+    type:String,
+    enum:["Not Discharged","Discharged"],
+    
+  },
     
     
 })
