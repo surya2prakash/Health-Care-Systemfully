@@ -34,7 +34,8 @@ const patientSchema = new mongoose.Schema({
     prescription_recipt:[{
         type:mongoose.Schema.Types.ObjectId,
         ref:"Prescription"
-    }]
+    }],
+   
 });
 
 
