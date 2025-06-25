@@ -35,7 +35,8 @@ exports.updatePatient = async(req,res)=>{
 
         return res.status(201).json({
             success:true,
-            message:"Patient Data Updated.."
+            message:"Patient Data Updated..",
+            patient:updateData
         })
 
 

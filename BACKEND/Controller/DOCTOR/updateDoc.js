@@ -30,7 +30,7 @@ exports.doctorUpdateDetails= async(req,res)=>{
 
         //sabhi mil gya hai to update kr do --->
 
-        const updateDetails = await Doctor.findByIdAndUpdate(doctorId,{available:available},{new:true}).populate().exec();
+        const updateDetails = await Doctor.findByIdAndUpdate(doctorId,{available:available,updatedAt:new Date()},{new:true}).populate().exec();
 
         if(!updateDetails){
             return res.status(500).json({
