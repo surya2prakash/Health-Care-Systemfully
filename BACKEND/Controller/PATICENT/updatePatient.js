@@ -22,7 +22,7 @@ exports.updatePatient = async(req,res)=>{
 
         //ager ek bhi mila hai to update kro
 
-        let updateData = await Patient.findOneAndUpdate({userId:userId},{name,age,phoneNumber},{new:true});
+        let updateData = await Patient.findOneAndUpdate({userId:userId},{name,age,phoneNumber,updatedAt:new Date()},{new:true});
 
         if(!updateData){
             return res.status(401).json({
