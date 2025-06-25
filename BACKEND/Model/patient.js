@@ -7,11 +7,17 @@ const mongoose = require("mongoose");
 
 
 const patientSchema = new mongoose.Schema({
-    patientId:{
+    //login user ki Id hai 
+    userId:{
         type:mongoose.Schema.Types.ObjectId,
         ref:"User",
         required:true
     },
+    name:{
+        type:String,
+        required:true
+    },
+
     gender:{
         type:String,
         enum:["Male","Female","others"],
@@ -27,6 +33,11 @@ const patientSchema = new mongoose.Schema({
         type:Number,
         required:true
     },
+    adharNumber:{
+        type:Number,
+        required:true,
+        unique:true
+    },
     appointment_book:[{
         type:mongoose.Schema.Types.ObjectId,
         ref:"Appointment"
@@ -35,6 +46,17 @@ const patientSchema = new mongoose.Schema({
         type:mongoose.Schema.Types.ObjectId,
         ref:"Prescription"
     }],
+
+    createdAt:{
+        type:Date,
+        required:true,
+        default:Date.now
+    },
+    updatedAt:{
+        type:Date,
+        required:true,
+        default:Date.now
+    }
    
 });
 

@@ -4,10 +4,16 @@ const mongoose = require("mongoose");
 
 
 const doctorSchema = new mongoose.Schema({
-    userId:{
+    adminId:{
         type:mongoose.Schema.Types.ObjectId,
         ref:"User",
         required:true
+    },
+    //doctor ki User wali Id hai ----->
+    doctorId:{
+        type:mongoose.Schema.Types.ObjectId,
+        ref:"User",
+        required:true  
     },
     specialization:{
         type:String,
@@ -15,15 +21,20 @@ const doctorSchema = new mongoose.Schema({
         required:true
     },
     available:[{
-        day:{type:String,
+        day:{
+            type:[String],
         enum: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
 
         required:true
         },
-            start:{type:String,
-                required:true},
-         end:{type:String,
-                  required:true}
+            start:{
+                type:String,
+                required:true
+            },
+         end:{
+            type:String,
+            required:true
+        }
         
     }],
     

@@ -8,7 +8,7 @@ const mongoose = require("mongoose");
 
 
 const prescriptionSchema = new mongoose.Schema({
-    patientId:{
+    userId:{
         type:mongoose.Schema.Types.ObjectId,
         ref:"Patient",
         required:true
