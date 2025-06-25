@@ -50,7 +50,7 @@ exports.createPatient = async(req,res)=>{
 
         })
       
-        await newPatient();
+        await newPatient.save();
 
         return res.status(201).json({
             success:true,
