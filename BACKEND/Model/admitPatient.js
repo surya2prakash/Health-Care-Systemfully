@@ -9,11 +9,11 @@ const bookseatSchema = new mongoose.Schema({
         ward_type:{
         type:String,
         enum:["General","ICU","Emergency"],
-        requried:true,
+        required:true,
     },
     totalSeat:{
         type:Number,
-        requried:true
+        required:true
     },
     
     booked_seat:{
