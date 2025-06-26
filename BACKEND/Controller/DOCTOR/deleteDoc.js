@@ -17,16 +17,19 @@ exports.deleteDoctor = async(req,res)=>{
        };
 
        //email Id mil gai
-      const userFind = await User.findOne({email,role:"Doctor"});
-
+      const userFind = await User.findOne({email:email,role:"Doctor"});
+      
+      console.log(userFind);
+     
       if(!userFind){
         return res.status(400).json({
             success:false,
             message:"Doctor Not FOund."
         })
        };
-       const user = await User.findByIdAndDelete(userFind.id);
        const deleteFromDoctorSchema = await Doctor.findOneAndDelete({doctorId:userFind._id});
+       const user = await User.findByIdAndDelete(userFind.id);
+     
 
       
 

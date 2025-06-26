@@ -6,42 +6,47 @@ const User = require("../../Model/user");
 exports.createDoctor= async(req,res)=>{
     try{
 
-        //admin hi doctor add kre ga ---->
+              
+          const id = req.params.id;
 
-          const userId = req.user.id;
-          
+          if(!id){
+            return res.status(404).json({
+              success:false,
+              message:"Doctor Id not Found."
+            })
+          }
 
-          const {email,specialization, available} = req.body;
+          const {specialization, available} = req.body;
 
           //input me mail aaya hai ya nhi check kro
           
 
-          if(!email || !specialization || !available){
+          if(!specialization || !available){
             return res.status(404).json({
                 success:false,
                 message:" Please fill All the Input .."
             })
           };
 
-          //check kro pahle se hai ya nhi 
+        //   //check kro pahle se hai ya nhi 
 
-          const user = await User.findOne({email});
+          const doctor = await Doctor.findOne({doctorId:id});
 
-          if(!user){
+          if(doctor){
             return res.status(404).json({
                 success:false,
-                message:"Doctor email not found.."
+                message:"Doctor already exist.."
             })
           };
 
           //ager mil gya to 
+                
+        
 
-         const   doctorId = user._id;
-
-          const createDoctor = await Doctor.create({adminId:userId,
+          const createDoctor = await Doctor.create({doctorId:id,
                                                         specialization,
-                                                    available,
-                                                doctorId});
+                                                    available
+                                                });
 
            
               if(!createDoctor){
