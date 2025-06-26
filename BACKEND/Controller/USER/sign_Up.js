@@ -84,6 +84,8 @@ exports.signUp =async(req,res)=>{
 
 require("dotenv").config();
 
+
+
 exports.employeeSignUp =async(req,res)=>{
         try{
 

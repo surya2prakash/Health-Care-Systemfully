@@ -11,7 +11,7 @@ require("dotenv").config();
 
 exports.logIn = async(req,res)=>{
     try{
-        const {email,password} = req.body;
+        let {email,password} = req.body;
 
         if(!email || !password){
             return res.status(400).json({
