@@ -7,7 +7,7 @@ exports. deleteAppointment = async(req,res)=>{
     try{
         const id = req.params.id;
         const userId = req.user.id;
-          if(!userId){
+          if(!userId || !id){
             return res.status(404).json({
                 success:false,
                 message:"Id not found."
@@ -18,7 +18,7 @@ exports. deleteAppointment = async(req,res)=>{
 
 
         
-        const appointment = await Appointment.findOne({_id:id,userId});
+        const appointment = await Appointment.findByIdAndDelete(id,{userId:userId});
 
         if(!appointment){
             return res.status(404).json({
@@ -27,9 +27,7 @@ exports. deleteAppointment = async(req,res)=>{
             })
         }
          
-        //ager mil gya hai to delete kr do -->
-
-        const removeAppointment  = await Appointment.findByIdAndDelete(id);
+       
 
         return res.status(200).json({
             success:true,

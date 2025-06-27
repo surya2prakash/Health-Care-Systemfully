@@ -15,8 +15,10 @@ const PORT = process.env.PORT || 8000;
 
 //database ko le ke aao-->
 const connect = require("./Storage/storage");
-connect.db();
+connect();
 
+const routes = require("./Router/routes");
+app.use("/api/v1",routes);
 
 app.get("/",(req,res)=>{
     res.send(`<h1>welcome to the Heath-System</h1>`)

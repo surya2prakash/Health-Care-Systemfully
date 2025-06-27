@@ -1,80 +1,98 @@
-const Prescription = require("../../Model/prescription");
+
 const Appointment = require("../../Model/appointment");
 const User = require("../../Model/user");
+const Doctor = require("../../Model/doctor");
+const Patient = require("../../Model/patient");
+const Prescription = require("../../Model/prescription");
 
 
+exports.prescriptionCreate =async(req,res)=>{
+  try{
+      //appointment Id -------------------------->
+    const id = req.params.id;
+        
+         const docId = req.user.id;
 
-exports.createPrescription  = async(req,res)=>{
-    try{
+         //check kro yee mere 
 
-        //doctor  Authorized hai
+         if(!id){
+             return res.status(404).json({
+              success:false,
+              message:"Not  found."
+             })
+         };
 
-          const id = req.user.id;
+         //check kro Appointment Id hai
 
-          const appointmentId = req.params.id;
+         const checkAp = await Appointment.findById(id);
 
-          const {medicines,notes} = req.body;
+         if(!checkAp){
+          return res.status(404).json({
+            success:false,
+            message:"Appointment Not found."
+          })
+         };
 
-          if(!id){
-            return res.status(404).json({
-                success:false,
-                message:"Doctor Id Not found."
-            })
-          };
+         let {medicines,notes} = req.body;
 
-          if(!appointmentId){
-            return res.status(404).json({
-                success:false,
-                message:"Appointment Id not found."
-            })
-          };
+         if(!medicines || !Array.isArray(medicines) || medicines.length === 0 ){
+          return res.status(404).json({
+            success:false,
+            message:"medicines Not Provided"
+          })
+         };
 
-          //check kro ki appointment id ka user same hai?
-            const appointment = await Appointment.findOne({_id:appointmentId,doctorId:id});
-            if(!appointment){
-                return res.status(404).json({
-                    success:false,
-                    message:"Appointment Not found."
+         if(!notes){
+          return res.status(404).json({
+            success:false,
+            message:"Notes Must be Needed .."
+          })
+         }
+        
 
-                })
-            }
+         const docModelId = await Doctor.findOne({doctorId:docId});
 
-          const checkUser = await User.findOne({_id:appointment.userId});
+         if(!docModelId){
+          return res.status(404).json({
+            success:false,
+            message:"Id Not Found in Doctor Model"
+          })
+         };
 
-          if(!checkUser){
-            return res.status(400).json({
-                success:false,
-                message:"User Not match."
-            })
-          };
+         //find doctor in Appointment 
+  
+         const docInAp = await Appointment.findOne({doctorId:docModelId._id});
 
-          //ager sab sahi hai to prescription create kro -->
 
-          const prescriptions = await Prescription.create({
-                                                                 doctorId:id,
-                                                                 userId:appointment.userId,
-                                                                 medicines,
-                                                                 notes
-                                                               });
+         //wahn bhi mil gya to sahi hai
 
-           if(!prescriptions){
-            return res.status(500).json({
-                success:false,
-                message:"facing Problem While Creating Prescription."
-            })
-           };
-           
-           return res.status(200).json({
-            success:true,
-            message:"Successfully created.",
-            prescription:prescriptions
-           })
+         //ager mila hai to prescription likho
 
-    }catch(err){
+         let medArry =[];
+
+
+      let newPrescription = new Prescription({
+        appointmentId:id,
+        doctorId:docInAp._id,
+        userId:checkAp.userId,
+        medicines,
+        notes
+
+      })
+     
+      await newPrescription.save();
+
+      return res.status(201).json({
+        success:true,
+        message:"Prescription Created..",
+        Yourprescription:newPrescription
+      })
+
+  }catch(err){
         console.error(err);
         return res.status(500).json({
-            success:false,
-            message:"Internal Server Problem While creating Presciption"
+          success:false,
+          message:"Internal server Error"
         })
-    }
+  }
 }

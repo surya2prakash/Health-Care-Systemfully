@@ -12,9 +12,9 @@ exports.createPatient = async(req,res)=>{
            
         // information from body ---->
         //take adhar Number as a unique Id ---->
-        const {name,gender,phoneNumber,age,adharNumber} = req.body;
+        let {name,gender,phoneNumber,age,adharNumber} = req.body;
 
-        const userId = req.user.id;
+        const id= req.user.id;
 
           if(!name || !gender || !phoneNumber || !age || !adharNumber){
             return res.status(409).json({
@@ -26,7 +26,7 @@ exports.createPatient = async(req,res)=>{
 
         //check kro pahle se to nhi hai patient ---->
 
-        const existingPatient = await Patient.findOne({adharNumber});
+        const existingPatient = await Patient.findOne({adharNumber,userId:id});
          //if user exist -->
         if(existingPatient){
             return res.status(401).json({
@@ -46,7 +46,7 @@ exports.createPatient = async(req,res)=>{
             gender,
             phoneNumber,
             adharNumber,
-            userId
+            userId:id
 
         })
       
@@ -54,7 +54,8 @@ exports.createPatient = async(req,res)=>{
 
         return res.status(201).json({
             success:true,
-            message:"Patient details created Successfully.."
+            message:"Patient details created Successfully..",
+            patientDetails:newPatient
         })
 
 

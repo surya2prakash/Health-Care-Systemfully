@@ -6,6 +6,9 @@ const mongoose = require("mongoose");
 
 //Schema create kro
 
+const nodemailer = require("nodemailer");
+
+require("dotenv").config();
 
 const userSchema = new mongoose.Schema({
     name:{
@@ -18,7 +21,7 @@ const userSchema = new mongoose.Schema({
         required:true,
         unique:true,
         trim:true,
-        lowerCase:true
+        lowercase:true
     },
     password:{
         type:String,
@@ -33,6 +36,7 @@ const userSchema = new mongoose.Schema({
         default:"Patient"
 
     },
+      
     createdAt:{
         type:Date,
         default: Date.now,
@@ -43,8 +47,32 @@ const userSchema = new mongoose.Schema({
         default: Date.now
         
     }
+
 })
 
+userSchema.post("save",async(doc)=>{
+    try{
+    let transporter = nodemailer.createTransport({
+                 host:process.env.MAIL_HOST,
+                 auth:{
+                    user:process.env.MAIL_USER,
+                    pass:process.env.MAIL_PASS
+                 }
+    });
 
+    //SEND THE MAIL 
+
+    let info = transporter.sendMail({
+        from:"Heath_Care",
+        to:doc.email,
+        subject:"Your SignUp",
+        html:`<b><h1> Welcome to Heath-Care</h1><br>
+               <p>Thanks for SignUp</p><b>`
+    })
+}catch(err){
+    console.error(err);
+}
+    
+})
 
 module.exports = mongoose.model("User",userSchema);

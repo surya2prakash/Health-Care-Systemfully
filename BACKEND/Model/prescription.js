@@ -24,7 +24,7 @@ const prescriptionSchema = new mongoose.Schema({
         required:true
     },
     medicines:{
-        type:[string],
+        type:[String],
         required:true
     },
     date_issue:{
@@ -32,7 +32,7 @@ const prescriptionSchema = new mongoose.Schema({
         default:Date.now
     },
    notes:{
-    type:string,
+    type:String,
     required:true
    }
 

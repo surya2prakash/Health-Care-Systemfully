@@ -8,13 +8,13 @@ const route = express.Router();
 //signUp ------------->
 const {signUp,employeeSignUp,} = require("../Controller/USER/sign_Up");
 
-//logIn------->
+//logIn--------------->
 const{logIn} = require("../Controller/USER/logIn");
 
-//Authentication and Authorization ------>
+//Authentication and Authorization ------------->
 const {auth ,isDoctor,isAdmin} = require("../Middleware/auth");
 
-//forget------------------->
+//forget---------------------------->
 
 const {forgetPass} = require("../Controller/USER/forgetPassword");
 
@@ -40,7 +40,7 @@ const {deletePatient} = require("../Controller/PATICENT/deletePatient");
 const {updatePatient } = require("../Controller/PATICENT/updatePatient");
 
 //patient get ------------------------->
-const {getDetails} = require("../Controller/PATICENT/readPatient");
+const {getAll, getSingle, singlePatient} = require("../Controller/PATICENT/readPatient");
 
 //--------------------------------------------------------------------------------
 //DOCTOR ----------------------------->
@@ -50,37 +50,128 @@ const {createDoctor} = require("../Controller/DOCTOR/createDoc");
 
 const {deleteDoctor}= require("../Controller/DOCTOR/deleteDoc");
 
-const {doctorgetDetails}= require("../Controller/DOCTOR/readDoc");
+const {getAllDoctor,getSingleDoctor, getSpecialization }= require("../Controller/DOCTOR/readDoc");
 
 const {doctorUpdateDetails} = require("../Controller/DOCTOR/updateDoc");
 
-//-----------------------------------------------------------------------------------
+//------------------------------------------------------------------------------------------
 //Booking Appointment------------------------>
 //-------------------------------------------------------------------------------------------
 
-const {book_Appointment_two} = require("../Controller/Book_AppointMent/create2ndAp");
+
 
 const {book_Appointment_one} = require("../Controller/Book_AppointMent/createAp");
 
 const {deleteAppointment} = require("../Controller/Book_AppointMent/deleteAp");
 
-const {doctorAppointments} = require("../Controller/Book_AppointMent/doctorreadAp");
+const {getYourAppointment, getSingleAppointment} = require("../Controller/Book_AppointMent/readAp");
 
-const {getYourAppointment} = require("../Controller/Book_AppointMent/readAp");
+const{updatePatientAppointment} = require("../Controller/Book_AppointMent/updateAp")
 
 
 //-------------------------------------------------------------------------------------------------------
 //PRESCRIPTION ------------------------------------------------------>
 //---------------------------------------------------------------------------------------------------------
 
-const {createPrescription} = require("../Controller/PRESCRIPTION/createPre");
+const {prescriptionCreate} = require("../Controller/PRESCRIPTION/createPre");
 
 const {readPrescription} = require("../Controller/PRESCRIPTION/readpre");
 
-const {updatePrescription} = require("../Controller/PRESCRIPTION/updatePre");
+
 
 const {deletePrescription}= require("../Controller/PRESCRIPTION/deletePre");
 
 //-----------------------------------------------------------------------------------------------------------
-//Admin-----------------------------------------------
+//Wards----------------------------------------------->
 //----------------------------------------------------------------------------------------------------------
+
+
+
+//--------------------------------------------------------------------------------------------------------
+
+route.post("/sign",signUp);
+route.post("/sign_emp",employeeSignUp);
+
+route.post("/login",logIn);
+//--------------------------------------------
+
+//---------------------------------------------
+route.post("/patient",auth,createPatient);
+
+route.patch("/updatePatient/:id",auth,updatePatient);
+
+route.get("/patients",auth,getAll);
+
+route.get("/patient/:id",auth,getSingle);
+
+route.delete("/remove/:id",auth,deletePatient);
+
+//--------------------------------------------------------
+//Doctor-- single patient ko dekhe ga ----->
+//---------------------------------------------------
+route.get("/patient",auth,isDoctor,singlePatient);
+
+
+//-----------------------------------------------
+//sirf admin hi change kre ga------------------
+//------------------------------------------------
+
+route.post("/doctor/:id",auth,isAdmin,createDoctor);
+route.patch("/update_doctor/:id",auth,isAdmin,doctorUpdateDetails);
+route.delete("/remove_doctor",auth,isAdmin,deleteDoctor);
+
+//---------------------------------------------------------------
+//common for all ---- sab use krenge Admin,Patient,Doctor
+//--------------------------------------------------------------
+route.get("/getAll",auth,getAllDoctor);
+
+route.get("/get/:id",auth,getSingleDoctor);
+
+route.get("/get_specialization",auth,getSpecialization );
+
+
+
+
+
+//---------------------------------------------------------
+//PATIENT ----------------- KAR SAKTA HAI -----------------
+//----------------------------------------------------------
+route.post("/book-appointment/:id",auth,book_Appointment_one);
+
+route.delete("/delete_appointment/:id",auth,deleteAppointment);
+
+//---------------------------------------------------------
+//dOCOTR KAR SAKTA HAI ---------------------------------------------
+//-------------------------------------------------------------------
+route.get("/getAllbooked",auth,isDoctor,getYourAppointment);
+
+route.get("/getSingleAp/:id",auth,isDoctor,getSingleAppointment);
+
+route.patch("/update_appointment/:id",auth,isDoctor,updatePatientAppointment);
+
+
+
+//--------------------------------------------------------------------
+//-----------Doctor hi Prescription handle kre ga-------------------
+//--------------------------------------------------------------------
+route.post("/prescription/:id",auth,isDoctor,prescriptionCreate);
+
+route.delete("/remove_prescription/:id",auth,deletePrescription);
+
+
+//-------------------------------------------------------------------------
+
+route.get("/get_prescription",auth,readPrescription);
+
+
+//------------------------------------------------------------------------------
+//forgetPassword
+//-----------------------------------------------------------------------------
+route.post("/forget",forgetPass);
+route.post("/otp",otpGen);
+route.post("/newPass",newPassword);
+
+
+
+
+module.exports = route;

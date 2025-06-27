@@ -58,7 +58,8 @@ exports.createDoctor= async(req,res)=>{
               
               return res.status(201).json({
                 success:true,
-                message:"Doctor profile Created successfully.."
+                message:"Doctor profile Created successfully..",
+                Details:createDoctor
               })
 
 

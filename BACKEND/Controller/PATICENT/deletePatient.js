@@ -4,25 +4,25 @@ const Patient = require("../../Model/patient");
 
 exports.deletePatient = async(req,res)=>{
           try{
-              const {adharNumber} = req.body;
+              const id = req.params.id;
 
               const userId = req.user.id;
              
-              if(!adharNumber){
-                return res.status(401).json({
-                    success:false,
-                    message:"Fill the adhar Number"
+              if(!id){
+                return res.status(404).json({
+                  success:false,
+                  message:"Id not Found.."
                 })
-              };
+              }
 
             //check kro user ne ess adhar se patient create kiya hai--->
 
-            const checkExisting = await Patient.findOneAndDelete({userId,adharNumber});
+            const checkExisting = await Patient.findOneAndDelete({_id:id,userId:userId});
 
             if(!checkExisting){
                 return res.status(409).json({
                 success:false,
-                message:"Patient Not exist. or fill the Adhar correctly.."
+                message:"Patient Not exist. "
             });
             }
 
@@ -30,7 +30,7 @@ exports.deletePatient = async(req,res)=>{
 
             return res.status(201).json({
                 success:true,
-                message:"Patient Form deleted.."
+                message:"Patient  deleted.."
             })
 
 

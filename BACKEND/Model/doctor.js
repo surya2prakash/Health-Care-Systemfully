@@ -4,11 +4,7 @@ const mongoose = require("mongoose");
 
 
 const doctorSchema = new mongoose.Schema({
-    adminId:{
-        type:mongoose.Schema.Types.ObjectId,
-        ref:"User",
-        required:true
-    },
+    
     //doctor ki User wali Id hai ----->
     doctorId:{
         type:mongoose.Schema.Types.ObjectId,
@@ -20,8 +16,11 @@ const doctorSchema = new mongoose.Schema({
         enum:["General Physician","Cardiologist","Neurologist","Dermatologist","Pediatrician","Gynecologist","Orthopedic","Dentist","Psychiatrist","ENT Specialist"],
         required:true
     },
-    available:[{
-        day:{
+   
+        
+    
+    available:{
+        days:{
             type:[String],
         enum: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
 
@@ -35,8 +34,7 @@ const doctorSchema = new mongoose.Schema({
             type:String,
             required:true
         }
-        
-    }],
+       },
     
     createdAt:{
         type:Date,

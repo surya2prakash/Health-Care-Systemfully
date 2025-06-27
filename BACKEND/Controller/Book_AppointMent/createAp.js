@@ -10,31 +10,65 @@ const Appointment = require("../../Model/appointment");
 
 exports.book_Appointment_one = async(req,res)=>{
     try{
-        
+        //userId  //kisko dikhana hai
         const userId = req.user.id;
 
-        //kisko dikhana hai
+      
+        //doctor Id
+        const id = req.params.id;
 
-        const {specialization} = req.body;
 
+        //check kro user ne same doctor ke pass pahle se to aapointment book nhi kiya hai
+
+
+        const isbook = await Appointment.findOne({userId:userId,doctorId:id})
+
+        if(isbook){
+            return res.status(500).json({
+                success:false,
+                message:"Appointment Already Booked."
+            })
+        }
+
+        
+        //date select kro ---->
+        let {AppointmentDate} = req.body;
         //esse me doctors ko filter kr lunga
+            
+        const [day, month, year] = AppointmentDate.split("-");
+             const newDate = new Date(`${year}-${month}-${day}`);
 
-        const availableDoctors = await Doctor.find({specialization});
+        let today = new Date();
+          today.setHours(0,0,0,0);
+
+        if(newDate < today){
+            return res.status(500).json({
+                success:false,
+                message:"Only future Booking Will Allowed.."
+            })
+        }
+        const availableDoctors = await Doctor.findById(id);
 
                if(!availableDoctors){
                 return res.status(404).json({
                     success:false,
-                    message:"No doctor Available Currently.."
+                    message:" doctor Not Available "
                 })
                }
 
 
-          //doctor show kro
+          //sab sahi hai to appointment book kr do -->
+
+          let book = await Appointment.create({
+              userId,
+              doctorId:id,
+              AppointmentDate:newDate,
+          })
           
           return  res.status(200).json({
             success:true,
-            message:"The available doctor are :",
-            doctors:availableDoctors
+            message:"Appointment Booked..",
+              yourAppointment:book
           })
 
         

@@ -1,43 +1,52 @@
 
 
-const prescription = require("../../Model/prescription");
-const Prescription = require("../../Model/prescription");
 
+const Prescription = require("../../Model/prescription");
+const Patient = require("../../Model/patient");
 
 exports.readPrescription = async(req,res)=>{
     try{
 
-        const id = req.user.id;
-        let role = req.user.role;
+             const {adharNumber} = req.body;
 
-        const prescriptionId = req.params.id;
+             if(!adharNumber) {
+                return res.status(404).json({
+                    success:false,
+                    message:"Enter Adhar Number."
+                })
+             };
 
-        if(!id){
-            return res.status(404).json({
-                success:false,
-                message:"Id not Found."
-            })
-        };
- let checkPrescription ;
-        //id mil gai hai to -->
-        if(role ==="Patient"){
-            checkPrescription = await Prescription.findOne({_id:prescriptionId,userId:id});
-        }else {
-            checkPrescription = await Prescription.findOne({_id:prescriptionId,doctorId:id});
-        }
-         
+             //gaer mil gya to user Id inkal lo 
 
-         if(!checkPrescription){
-            return res.status(404).json({
-                success:false,
-                message:"Prescription Not Found"
-            })
-         };
+
+             const user = await Patient.findOne({adharNumber:adharNumber});
+
+             if(!user){
+                return res.status(404).json({
+                    success:false,
+                    message:"Patient Not found.."
+                })
+             };
+
+             //ager mil gya hai to 
+
+             const id = user.userId;
+
+             const userfound = await Prescription.findOne({userId:id});
+
+             if(!userfound){
+                return res.status(404).json({
+                    success:false,
+                    message:"Prescription Not Found.."
+                })
+             }
+             
+     
 
          return res.status(200).json({
             success:true,
             message:"Prescription Fetched Successfully..",
-            prescription:checkPrescription
+            prescription:userfound
          })
 
     }catch(err){

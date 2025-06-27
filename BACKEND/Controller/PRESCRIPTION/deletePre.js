@@ -8,14 +8,10 @@ exports.deletePrescription = async(req,res)=>{
 
         const prescriptionId = req.params.id;
 
-        //doctor authorized hai
-
-        const doctorId = req.user.id;
-
     
         //check kro doctor 
 
-        const checkforUpdate = await Prescription.findOneAndDelete({_id:prescriptionId,doctorId:doctorId});
+        const checkforUpdate = await Prescription.findByIdAndDelete(prescriptionId);
 
         if(!checkforUpdate){
            return res.status(404).json({
