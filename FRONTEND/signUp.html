@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>signUp-Page</title>
+    <style>
+          * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+    body {
+      background: #1c71e0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      padding: 20px;
+    }
+    .wrapper_two {
+      background: #e1b6b6;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+      width: 100%;
+      max-width: 500px;
+    }
+    .wrapper_two button.login_page,
+    .wrapper_two button.employee {
+      margin: 0 5px 20px 0;
+      padding: 10px 15px;
+      border: none;
+      background: #3498db;
+      color: #fff;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: 500;
+      transition: background 0.3s;
+    }
+    .wrapper_two button.login_page:hover,
+    .wrapper_two button.employee:hover {
+      background: #2980b9;
+    }
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+    form label {
+      font-weight: 600;
+      color: #333;
+    }
+    form input,
+    form select {
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      outline: none;
+      transition: border 0.3s;
+    }
+    form input:focus,
+    form select:focus {
+      border-color: #3498db;
+    }
+    form button[type="submit"] {
+      padding: 12px;
+      background: #2ecc71;
+      color: #fff;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: 600;
+      transition: background 0.3s;
+    }
+    form button[type="submit"]:hover {
+      background: #27ae60;
+    }
+    .active {
+      display: none;
+    }
+    </style>
+</head>
+<body>
+    <div class="wrapper_two">
+                 <button class="login_page">LogIn</button>
+                 <button class="employee">Sign-Emp</button>
+            <div class="sign_container">
+                <form class="sign_form">
+                       <label for="sign_name">Name</label>
+                       <input type="text" placeholder="enter your name" id="sign_name">
+                       <label for="sign_email">Email</label>
+                       <input type="email" placeholder="enter your email" id="sign_email">
+                       <label for="sign_password">Password</label>
+                       <input type="text" placeholder="enter your password" id="sign_password">
+                       <label for="sign_confirmpassword">Confirm Password</label>
+                       <input type="text" placeholder="enter confirm password" id="sign_confirmpassword">
+                       <button type="submit">SignUp</button>
+                </form>
+            </div>
+            <div class="emp_sign">
+                     <form class="emp_form">
+                       <label for="emp_name">Name</label>
+                       <input type="text" placeholder="enter your name" id="emp_name">
+                       <label for="emp_email">Email</label>
+                       <input type="email" placeholder="enter your email" id="emp_email">
+                       <label for="emp_password">Password</label>
+                       <input type="text" placeholder="enter your password" id="emp_password">
+                       <label for="emp_confirmpassword">Confirm Password</label>
+                       <input type="text" placeholder="enter confirm password" id="emp_confirmpassword">
+                       <label for="role">Role</label>
+                           <select name="role" id="role">
+                            <option value="">--Select--</option>
+                            <option value="Doctor">Doctor</option>
+                            <option value="Admin">Admin</option>
+                           </select>
+                         <label for="code">Access Code </label>
+                         <input type="text" placeholder="enter access code" id="code">  
+                       <button type="submit">SignUp</button>
+                </form>
+            </div>
+    </div>
+    <script>
+           const logIn = document.querySelector(".login_page");
+           logIn.addEventListener("click",(e)=>{
+                e.preventDefault();
+                  window.location.href ="index.html"
+           })
+            
+          //sign form le ke aao ---->
+
+
+           // hide all container
+
+           document.querySelector(".emp_sign ").classList.add("active");
+
+             let employeebtn = document.querySelector(".employee");
+             
+             employeebtn.addEventListener("click",(e)=>{
+                e.preventDefault();
+
+                   document.querySelector(".emp_sign").classList.remove("active");
+                    document.querySelector(".sign_container ").classList.add("active");
+                   document.querySelector(".employee").classList.add("active");
+             })
+                  
+
+          const signform = document.querySelector(".sign_form");
+          signform.addEventListener("submit",(e)=>{
+            e.preventDefault();
+
+            //inputs ko le ke aao ->>
+                 let name= document.getElementById("sign_name").value.trim();
+                 let email= document.getElementById("sign_email").value.trim();
+                 let password=document.getElementById("sign_password").value.trim();
+
+                 let confirmPassword = document.getElementById("sign_confirmpassword").value.trim();
+                 
+               
+                      
+
+                      let data = {name,email,password,confirmPassword};
+
+                      signSubmit(data);
+          })
+          
+        
+
+          async function signSubmit(data){
+               try{
+            let response =await fetch("http://localhost:4000/api/v1/sign",{
+                method:"POST",
+                headers:{
+                   "Content-Type":"application/json"
+                },
+                body:JSON.stringify(data)
+            });
+
+            let result = await response.json();
+
+            if(result.success){
+                alert(result.message);
+
+            }else{
+                alert(result.message);
+            }
+        }catch(err){
+                console.error(err);
+        }
+          }
+
+
+
+
+          //employee ---- form 
+
+             let empform = document.querySelector(".emp_form");
+
+             empform.addEventListener("submit",(e)=>{
+                e.preventDefault();
+
+                let name = document.getElementById("emp_name").value.trim();
+                let email = document.getElementById("emp_email").value.trim();
+                let password = document.getElementById("emp_password").value.trim();
+                let confirmPassword = document.getElementById("emp_confirmpassword").value.trim();
+                let role = document.getElementById("role").value;
+                let accesscode = document.getElementById("code").value.trim();
+
+                   let data = {name,email,password,confirmPassword,role,accesscode};
+
+                   signEmployee(data);
+             });
+            
+             async function signEmployee(data){
+                     try{
+                let response =await fetch("http://localhost:4000/api/v1/sign_emp",{
+                    method:"POST",
+                    headers:{
+                        "Content-Type":"application/json"
+                    },
+                    body:JSON.stringify(data)
+                });
+
+                let result =await response.json();
+
+                if(result.success){
+                    alert(result.message);
+                    window.location.href="index.html";
+                }else{
+                    alert(result.message)
+                }
+             
+            }catch(err){
+                console.error(err);
+            }
+                
+             }
+
+    </script>
+    
+</body>
+</html>
