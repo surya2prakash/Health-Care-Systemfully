@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Health-Care</title>
+    <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+    <div class="wrapper">
+        <header>
+            <div class="header_container">
+              <h2>Welcome To Health-Care</h2>
+                  <button id="header_btn">Create Account</button>
+                </div>
+        </header>
+    <main>
+        <div class="main_container">
+                <div class="logIn_container">
+                    
+                       <form class="logIn_form">
+                           <label for="logIn_email">Email</label>
+                           <input type="email" placeholder="enter your email" id="logIn_email">
+                           <label for="logIn_password">Password</label>
+                           <input type="password" placeholder="enter your password" id="logIn_password">
+                          <button class="LogIn_Btn">LogIn</button>
+                       </form>
+                       <a href="./forgetPass.html">forget Password</a>
+                </div>
+                   
+               
+
+        </div>
+
+
+          </main>
+    <footer>
+        <div class="footer_container">
+        <div class="footer_about">
+             <div>About Us</div>
+        </div>
+
+        <div class="footer_contact">
+        <div>Contact Us</div>
+        <p></p>
+        </div>
+        <div class="footer-social">
+            <div>Follow Us: </div>
+            <a href="#">Facebook</a> |
+            <a href="#">Twitter</a> |
+            <a href="#">Instagram</a>
+        </div>
+         </div>
+   </footer>
+
+</div>
+
+<script>
+
+    //when I click on  create account --->
+       const createAccount = document.querySelector("#header_btn");
+               
+
+       createAccount.addEventListener("click",(e)=>{
+        e.preventDefault();
+            window.location.href="signUp.html"
+       });
+
+       //Login form le ke aao
+       const logInform = document.querySelector(".logIn_form");
+
+       logInform.addEventListener("submit",(e)=>{
+        e.preventDefault();
+           
+        let email = document.getElementById("logIn_email").value.trim();
+        let password = document.getElementById("logIn_password").value.trim();
+
+        if(!email){
+            alert("Enter the email");
+            window.location.reload();
+        };
+        if(!password){
+            alert("Enter the password");
+            window.location.reload();
+        };
+        
+        let data ={email,password};
+        logInpage(data);
+       });
+
+       async function logInpage(data){
+             
+             let response = await fetch("http://localhost:4000/api/v1/login",{
+                method:"POST",
+                headers:{
+                    
+                    "Content-Type":"application/json"
+                },
+                body:JSON.stringify(data)
+             });
+
+             let result = await response.json();
+              
+                
+             if(result.success){
+               alert(result.message);
+                       
+                  window.localStorage.setItem("token",`${result?.token}`);
+                if(result?.user?.role ==="Patient")
+                 {
+                 
+                        
+                 
+                 window.location.href ="patient.html";
+                 };
+              if(result?.user?.role ==="Doctor")
+              {
+                    
+                 window.location.href="doctor.html";
+              };
+              if(result?.user?.role === "Admin"){
+                
+                window.location.href ="admin.html";
+
+              }
+                
+             }else{
+                alert(result.message);
+              }
+       };
+
+
+</script>
+    
+</body>
+</html>
