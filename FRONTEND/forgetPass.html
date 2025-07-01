@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>forget-Password</title>
+    <style>
+        * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    .wrapper_one {
+        position: relative;
+      height: 100vh;
+      width: 100vw;
+      background-color: rgb(3, 45, 255);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+    form {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      height: 400px;
+      width: 400px;
+      background-color:white;
+      border-radius: 8px;
+      padding: 20px;
+    }
+     label {
+      margin-top: 20px;
+      font-weight: bold;
+    }
+
+   
+     input {
+      padding: 10px;
+      margin-top: 10px;
+      width: 80%;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+    #forget_btn {
+      margin-top: 25px;
+      padding: 12px;
+      background-color: #0072ff;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      font-size: 16px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+    #forget_btn:hover {
+      background-color: #0055cc;
+    }
+
+    .home_btn{
+        position: absolute;   /* Make it float */
+    top: 20px;
+    right: 20px;
+    padding: 10px 15px;
+    background-color: #ffffff;
+    color: #0072ff;
+    border: 1px solid #0072ff;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    }
+
+    .home_btn:hover{
+        background-color: #0072ff;
+    color: #fff;
+    }
+
+    #otp_btn{
+        margin-top: 25px;
+      padding: 12px;
+      background-color: #0072ff;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      font-size: 16px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+
+    #otp_btn:hover{
+        background-color: #0055cc;
+    }
+
+
+    #pass_btn{
+        margin-top: 25px;
+      padding: 12px;
+      background-color: #0072ff;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      font-size: 16px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+
+    #pass_btn:hover{
+        background-color: #0055cc;
+    }
+
+    form h3 {
+  color: #0072ff;
+  margin-bottom: 15px;
+}
+
+.active{
+  display:none;
+}
+
+    </style>
+</head>
+<body>
+    <div class="wrapper_one">
+        <a href="./index.html" class="home_btn">Back-Home</a>
+           <div class="forget_container">
+                     
+                    <form class="forget_form">
+                        <h3>Forget-Password</h3>
+                             <label for="forget_email">Email</label>
+                             <input type="email" placeholder="enter your email" id="forget_email">
+                           
+                             <button id="forget_btn">Rest</button>
+
+                    </form>
+
+
+           </div>
+
+           <div class="otp_container">
+                   <form class="otp_form">
+                    <h3>Otp-Form</h3>
+
+                    <label for="otp_enter">OTP</label>
+                    <input type="text" placeholder="enter your otp" id="otp_enter">
+                    <button id="otp_btn">submit</button>
+                   </form>
+           </div>
+           
+           <div class="password_container">
+                    <form class="password_form">
+                        <h3>New Password form</h3>
+                        <label for="newPass">New Password</label>
+                        <input type=" text" placeholder="enter new Password" id="newPass">
+                        <label for="confirmpass">Confirm Password</label>
+                        <input type="text" placeholder="enter confirm password" id="confirmpass">
+                        <button id="pass_btn">submit</button>
+                    </form>
+           </div>
+
+
+    </div>
+
+    <script>
+      //sabhi container ko le aao----->
+          const allContainer = document.querySelectorAll(".forget_container , .password_container , .otp_container");
+          //sabki display hide kro ---->
+          allContainer.forEach(function(element){
+               element.classList.add("active")
+          });
+
+          //sabse pahle show kro forget container ko ---->
+     let forget_container = document.querySelector(".forget_container");
+
+          forget_container.classList.remove("active");
+
+
+        let forget_form = document.querySelector(".forget_form");
+
+
+        console.log(forget_form);
+
+
+
+
+          forget_form.addEventListener("submit",(e)=>{
+            e.preventDefault();
+            // sabki value le ke aao
+             let email = document.querySelector("#forget_email").value.trim();
+
+             if(!email.endsWith("@gmail.com")){
+                  alert("Only gmail Allowed.");
+                  return;
+             }
+
+             if(email ===""){
+              alert("Enter the Email");
+              return;
+             }
+
+
+
+             let data ={email};
+
+             forgetPassword(data);
+           
+          });
+
+
+          // backend call for  forget password ...
+             async function forgetPassword(data){
+              try{
+                       let response =await fetch("http://localhost:4000/api/v1/forget",{
+                  method:"POST",
+                  headers:{
+                    "Content-Type":"application/json",
+                  //  "Authorization":`Bearer ${token} `
+                  },
+                  body:JSON.stringify(data)
+
+                
+             })
+            
+             let result =await response.json();
+             if(result.success){
+               alert(result.message);
+
+               //success ho gya to ab next step hai otp wala page dikhao
+                document.querySelector(".forget_container").classList.add("active");
+                document.querySelector(".otp_container").classList.remove("active");
+
+             }else{
+                alert(result.message);
+             }
+
+            }catch(err){
+              console.error(err.message);
+            }
+             }  
+       
+
+             //otp form le ke aao -------------------->
+
+             const otpform = document.querySelector(".otp_form");
+
+             otpform.addEventListener("submit",(e)=>{
+                 e.preventDefault();
+
+                 let otp = document.querySelector("#otp_enter").value.trim();
+                   
+                 let myOtp = parseInt(otp);
+                 let data ={myOtp};
+                  otpEnter(data);
+
+             })
+
+             //backend call
+
+             async function otpEnter(data){
+                   try{
+                       let response= await fetch("http://localhost:4000/api/v1/otp",{
+                        method:"POST",
+                        headers:{
+                          "Authorization":`Bearer ${token}`,
+                          "Content-Type":"application/json"
+                        },
+                        body:JSON.stringify(data)
+                       })
+
+                       let result =await response.json();
+
+                       if(result.success){
+                            alert(result.message);
+                            //hide otp container ------->
+                            document.querySelector(".otp_container").classList.add("active");
+                            //new password form show kro -------------->
+                            document.querySelector(".password_container").classList.remove("active");
+                       }else{
+                        alert(result.message)
+                       }
+                      }catch(err){
+                        console.error(err);
+                      }
+
+             }
+
+
+             let passwordform = document.querySelector(".password_form");
+
+             passwordform.addEventListener("submit",(e)=>{
+                     e.preventDefault();
+                    
+                     let newPassword = document.getElementById("newPass").value.trim();
+                     let confirmPassword = document.getElementById("confirmpass").value.trim();
+
+                     if(newPassword ==="" || confirmPassword ===""){
+                          alert("fill the password.")
+                          return;
+                     };
+
+                     if(newPassword !== confirmPassword){
+                         alert("Password Not match.");
+                         return ;
+                     };
+
+                     //ager sab sahi hai to backend ko call kro ---------->
+                          let data = {newPassword,confirmPassword};
+                     changePassword(data);
+             });
+
+             async function changePassword(data){
+                  try{
+
+                    let response = await fetch("http://localhost:4000/api/v1/newPass",{
+                      method:"POST",
+                      headers:{
+                        "Authorization":`Bearer ${token}`,
+                        "Content-Type":"application/json"
+                      },
+                      body:JSON.stringify(data)
+                    })
+
+                    let result = await response.json();
+
+                    if(result.success){
+                         alert(result.message);
+                         window.location.href ="index.html";
+                    }
+
+                  }catch(err){
+                     console.error(err);
+                  }
+             }
+
+    </script>
+    
+</body>
+</html>
