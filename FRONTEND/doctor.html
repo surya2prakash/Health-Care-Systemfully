@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Doctor-Page</title>
+   <style>
+  body {
+    font-family: Arial, sans-serif;
+    background: #f0f2f5;
+    margin: 0;
+    padding: 0;
+  }
+
+  .wrapper {
+    max-width: 1200px;
+    margin: auto;
+    padding: 20px;
+  }
+
+  button {
+    padding: 10px 20px;
+    margin: 10px 5px;
+    border: none;
+    background: #007bff;
+    color: white;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+
+  button:hover {
+    background: #0056b3;
+  }
+
+  form {
+    background: #fff;
+    padding: 15px;
+    margin: 20px 0;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+  }
+
+  form label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+  }
+
+  form input {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+
+  .allPatient, .showPrescription {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 15px;
+  }
+
+  .card_patient, .card_container {
+    background: white;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0 0 5px rgba(0,0,0,0.1);
+  }
+
+  .card_patient div, .card_container div {
+    margin-bottom: 8px;
+  }
+
+  .active {
+    display: none;
+  }
+
+  .writePrescription, .readPrescription {
+    margin-top: 20px;
+  }
+
+  .patient_name {
+    font-weight: bold;
+    color: #333;
+  }
+
+  .medi {
+    color: #555;
+  }
+
+  .note {
+    font-style: italic;
+    color: #777;
+  }
+
+  .issue_date {
+    font-size: 0.9rem;
+    color: #999;
+  }
+
+  .active{
+      display: none;
+  }
+</style>
+
+</head>
+<body>
+      <div class="wrapper">
+                  <button class="logOut">Log-out</button>
+                  <button class="back">Back</button>
+                  
+                  <div class="allPatient">
+
+                  </div>
+
+                 
+
+                  <div class="writePrescription">
+                          <form id="prescription_form">
+                                   <label for="prescription_med">Medicine</label>
+                                   <input type="text" placeholder="enter the medicines" id="prescription_med">
+                                   <label for="prescription_notes">Notes</label>
+                                   <input type="text" placeholder="write about patient" id="prescription_notes">
+                                   <button>submit</button>
+                          </form>
+                  </div>
+
+                  <div class="readPrescription">
+                               <form class="get_prescription">
+                                    <label for="get_adhar">Enter Adhar Number</label>
+                                    <input type="text" placeholder="enter adhar number" id="get_adhar">
+                                       <button id="get_btn">submit</button>
+                               </form> 
+                  </div>
+
+                  <div class="showPrescription">
+
+                  </div>
+      </div>
+
+      <script>
+            document.addEventListener("DOMContentLoaded",async()=>{
+
+               //logIn se token le liya
+               let token = window.localStorage.getItem("token");
+
+                 let allPatient = document.querySelector(".allPatient");
+                 let prescription = document.querySelector(".writePrescription");
+                 let prescriptionForm = document.querySelector("#prescription_form");
+                  let logOut_btn = document.querySelector(".logOut");
+                  let readform = document.querySelector(".get_prescription");
+                  let showPrescription = document.querySelector(".showPrescription");
+
+                     document.querySelector(".writePrescription").classList.add("active");
+                       document.querySelector(".readPrescription").classList.add("active");
+                       document.querySelector(".showPrescription").classList.add("active");
+                  logOut_btn.addEventListener("click",(e)=>{
+                    e.preventDefault();
+
+                    window.localStorage.removeItem("token");
+                    window.location.href ="index.html";
+                  })
+
+
+                  let btn = document.querySelector(".back");
+                  btn.addEventListener("click",(e)=>{
+                    e.preventDefault();
+                    window.location.reload();
+                  })
+
+                   async function callAllPatient(token){
+                        try{
+
+                            let response = await fetch("http://localhost:4000/api/v1/getAllbooked",{
+                                method:"GET",
+                                headers:{
+                                 "Authorization":`Bearer ${token}`,
+                                 "Content-Type":"application/json"   
+                                }
+                            });
+
+                            let result = await response.json();
+
+                            if(result.success){
+                                     //alert(result.message);
+                                     //ab show kro display pe
+                                       
+                                     let data = result?.details
+                                     showAll(data);
+
+                            }else{
+                                alert(result.message);
+                            }
+
+                        }catch(err){
+                            console.log(err)
+                        }
+                   }
+
+                   callAllPatient(token);
+
+                
+             
+                  function showAll(data){
+                    allPatient.innerHTML="";
+                       data.forEach(element => {
+
+                         
+                                //ek card bnao
+                                let card = document.createElement("div");
+                                card.className="card_patient";
+                                let namePatient = document.createElement("div");
+                                namePatient.className="patient_name";
+                                let status = document.createElement("div");
+                                status.className="patient_status";
+                                let appointment_date = document.createElement("div");
+                                  appointment_date.className="ap_date";
+                                 let prescription_btn = document.createElement("button");
+                                     prescription_btn.setAttribute("id",`${element._id}`);
+                                     prescription_btn.innerHTML ="Write Prescription";   
+                                  let date = new Date(element?.appointmentDate).toLocaleDateString();
+                                  namePatient.innerHTML ="Patient Name :" + element?.userId?.name;
+                                  status.innerHTML="Status :" + element?.status;
+                                  appointment_date.innerHTML="Booking Date :" + date;
+
+                                  card.append(namePatient,status,appointment_date,prescription_btn);
+
+                                  allPatient.appendChild(card);
+
+                                  prescription_btn.addEventListener("click",async(e)=>{
+                                    e.preventDefault();
+                                 let   appointmentId = prescription_btn.getAttribute("id");
+
+                                await showPrescription_pag(appointmentId);
+                                 document.querySelector(".writePrescription").classList.remove("active");
+                                   document.querySelector(".allPatient").classList.add("active");
+                       document.querySelector(".readPrescription").classList.add("active");
+                       document.querySelector(".showPrescription").classList.add("active");
+                               
+                    });
+                               
+                 
+                       });
+
+                    }
+                 
+                 
+
+
+                   
+                    let apId =null;
+                       //prescription form ----------------->
+
+                     async function sendPrescription(data,apId,token){
+                        try{
+                            let response =await fetch(`http://localhost:4000/api/v1/prescription/${apId}`,{
+                                method:"POST",
+                                headers:{
+                                    "Authorization":`Bearer ${token}`,
+                                    "Content-Type":"application/json"
+                                },
+                                body:JSON.stringify(data)
+                            })
+
+                            let result = await response.json();
+
+                           if(result.success){
+                               alert(result.message);
+                                  document.querySelector(".writePrescription").classList.add("active");
+                                   document.querySelector(".allPatient").classList.add("active");
+                               document.querySelector(".readPrescription").classList.remove("active");
+                              document.querySelector(".showPrescription").classList.add("active");
+                              
+                           }
+                        }catch(err){
+                            console.error(err);
+                        }
+                     }
+
+
+                       
+                     function showPrescription_pag(appointmentId){
+                                  
+                           apId = appointmentId;
+                       }
+
+                  prescriptionForm.addEventListener("submit",(e)=>{
+                    e.preventDefault();
+                            
+                    let currentMed = document.querySelector("#prescription_med").value;
+                    let notes = document.querySelector("#prescription_notes").value.trim();
+                           
+                    //string se map ka use kar ke array me convert kar liya ----->
+                      let medicines = currentMed.split(",").map(med =>med.trim());
+                         let data = {medicines,notes};
+                      sendPrescription(data,apId,token);
+                  })
+
+                    
+
+
+
+
+               async function sendreadForm(data){
+                   try{
+                let response = await fetch("http://localhost:4000/api/v1/get_prescription",{
+                       method:"POST",
+                       headers:{
+                          "Authorization":`Bearer ${token}`,
+                          "Content-Type":"application/json"
+                       },
+                       body:JSON.stringify(data)
+                });
+
+                let result = await response.json();
+                    if(result.success){
+                         alert(result.message);
+                         let data =result?.prescription;
+                         showPatientPrescription(data);
+                         document.querySelector(".writePrescription").classList.add("active");
+                                   document.querySelector(".allPatient").classList.add("active");
+                               document.querySelector(".readPrescription").classList.add("active");
+                              document.querySelector(".showPrescription").classList.remove("active");
+                    }else{
+                        alert(result.message);
+                    }
+
+            }catch(err){
+                    console.log(err);
+            }
+               }
+
+
+
+                      readform.addEventListener("submit",(e)=>{
+                        e.preventDefault();
+                          let value = document.getElementById("get_adhar").value.trim();
+                         
+                          let adharNumber = parseInt(value);
+
+                          let data ={adharNumber};
+
+                          sendreadForm(data);
+                      })
+
+
+                     //  showPrescription parent element hai
+                         
+                 function    showPatientPrescription(data){
+                        showPrescription.innerHTML=""  ; 
+                        
+                        let card = document.createElement("div");
+                           card.className="card_container";
+                           let name = document.createElement("div");
+                              name.className="patient_name";
+                            let date = document.createElement("div");
+                              date.className="issue_date";
+                            let medicines = document.createElement("div");
+                              medicines.className="medi";
+                            let notes = document.createElement("div");
+                                notes.className="note";
+                              let med =  data?.medicines.toString();
+                                name.innerHTML="Patient Name :" + data?.userId?.name;
+                                medicines.innerHTML ="Medicines :" + med;
+                                let newDate = new Date(data?.date_issue).toLocaleDateString()
+                                date.innerHTML ="Date_Issue ON:" + newDate ;
+                                notes.innerHTML ="Notes :" + data?.notes;
+
+                                card.append(name,date,med,notes);
+
+                                showPrescription.appendChild(card);
+                 }
+
+            })
+      </script>
+    
+</body>
+</html>
