@@ -326,7 +326,7 @@
                 let result = await response.json();
                     if(result.success){
                          alert(result.message);
-                         console.log(result);
+                        
                          let data =result?.prescription;
                         let preId= result?.prescription?._id;
                         
@@ -394,8 +394,32 @@
           let deletePrescription = document.querySelector(".delete_btn");
                   
 
-        
+                       
+            async function removePrescr(preId) {
+                   try{
 
+                    let response =await fetch(`http://localhost:4000/api/v1/remove_prescription/${preId}`,{
+                      method:"DELETE",
+                      headers:{
+                        "Authorization":`Bearer ${token}`,
+                        "Content-Type":"application/json"
+                      },
+                      
+                    })
+
+                    let result = await response.json();
+                    if(result.success){
+                      alert(result.message);
+                    }else{
+                      alert(result.message);
+                    }
+
+
+                   }catch(err){
+                          console.error(err);
+                   }      
+              
+            }
                
 
 
