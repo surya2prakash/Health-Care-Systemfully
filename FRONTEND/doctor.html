@@ -108,6 +108,8 @@
       <div class="wrapper">
                   <button class="logOut">Log-out</button>
                   <button class="back">Back</button>
+                  <button class="see-btn">See Prescription</button>
+                  <button class="delete_btn">Delete </button>
                   
                   <div class="allPatient">
 
@@ -154,6 +156,7 @@
                      document.querySelector(".writePrescription").classList.add("active");
                        document.querySelector(".readPrescription").classList.add("active");
                        document.querySelector(".showPrescription").classList.add("active");
+                      document.querySelector(".delete_btn").classList.add("active");
                   logOut_btn.addEventListener("click",(e)=>{
                     e.preventDefault();
 
@@ -266,11 +269,10 @@
 
                            if(result.success){
                                alert(result.message);
-                                  document.querySelector(".writePrescription").classList.add("active");
-                                   document.querySelector(".allPatient").classList.add("active");
-                               document.querySelector(".readPrescription").classList.remove("active");
-                              document.querySelector(".showPrescription").classList.add("active");
-                              
+                                  
+                               window.location.reload();
+                           }else{
+                            alert(result.message);
                            }
                         }catch(err){
                             console.error(err);
@@ -297,9 +299,18 @@
                   })
 
                     
+                     let seeprescriptionBtn = document.querySelector(".see-btn");
 
+                     seeprescriptionBtn.addEventListener("click",(e)=>{
+                      e.preventDefault();
+                      document.querySelector(".writePrescription").classList.add("active");
+                                   document.querySelector(".allPatient").classList.add("active");
+                               document.querySelector(".readPrescription").classList.remove("active");
+                              document.querySelector(".showPrescription").classList.add("active");
+                              
+                     })
 
-
+                 
 
                async function sendreadForm(data){
                    try{
@@ -315,12 +326,20 @@
                 let result = await response.json();
                     if(result.success){
                          alert(result.message);
+                         console.log(result);
                          let data =result?.prescription;
+                        let preId= result?.prescription?._id;
+                        
                          showPatientPrescription(data);
+                           deletePres(preId);
+                         
                          document.querySelector(".writePrescription").classList.add("active");
                                    document.querySelector(".allPatient").classList.add("active");
                                document.querySelector(".readPrescription").classList.add("active");
                               document.querySelector(".showPrescription").classList.remove("active");
+                              document.querySelector(".delete_btn").classList.remove("active");
+
+                                
                     }else{
                         alert(result.message);
                     }
@@ -330,8 +349,8 @@
             }
                }
 
-
-
+                  
+                
                       readform.addEventListener("submit",(e)=>{
                         e.preventDefault();
                           let value = document.getElementById("get_adhar").value.trim();
@@ -339,10 +358,12 @@
                           let adharNumber = parseInt(value);
 
                           let data ={adharNumber};
-
-                          sendreadForm(data);
+                            
+                          sendreadForm(data)
+                            
                       })
-
+                        
+                     
 
                      //  showPrescription parent element hai
                          
@@ -370,7 +391,29 @@
 
                                 showPrescription.appendChild(card);
                  }
+          let deletePrescription = document.querySelector(".delete_btn");
+                  
 
+        
+
+               
+
+
+
+
+
+
+
+        
+          function deletePres(preId){
+                                                    
+                      deletePrescription.addEventListener("click",(e)=>{
+                       e.preventDefault();
+                               removePrescr(preId);
+                      })
+                    }
+
+               
             })
       </script>
     
