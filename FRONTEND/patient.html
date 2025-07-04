@@ -5,128 +5,166 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <style>
-        body {
-          font-family: Arial, sans-serif;
-          background-color: #f2f4f7;
-          margin: 0;
-          padding: 0;
-        }
-      
-        .wrapper_three {
-          max-width: 1200px;
-          margin: 0 auto;
-          padding: 20px;
-        }
-      
-        /* Top Buttons */
-        .wrapper_three > button {
-          margin: 5px;
-          padding: 10px 15px;
-          border: none;
-          background-color: #2c3e50;
-          color: #fff;
-          font-size: 14px;
-          border-radius: 4px;
-          cursor: pointer;
-          transition: background-color 0.3s ease;
-        }
-      
-        .wrapper_three > button:hover {
-          background-color: #34495e;
-        }
-      
-        /* Forms */
-        form {
-          display: flex;
-          flex-direction: column;
-          gap: 10px;
-          background-color: #fff;
-          padding: 15px;
-          margin-top: 15px;
-          border-radius: 6px;
-          box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-        }
-      
-        form label {
-          font-weight: bold;
-        }
-      
-        form input, form select {
-          padding: 8px;
-          border: 1px solid #ccc;
-          border-radius: 4px;
-        }
-      
-        form button {
-          padding: 10px;
-          background-color: #2980b9;
-          color: #fff;
-          border: none;
-          border-radius: 4px;
-          cursor: pointer;
-          font-weight: bold;
-        }
-      
-        form button:hover {
-          background-color: #3498db;
-        }
-      
-        /* Show all doctors container */
-        .showAllDoctors,
-        .specialized_main,
-        .show_patient_Appointment {
-          display: flex;
-          flex-wrap: wrap;
-          gap: 15px;
-          margin-top: 15px;
-        }
-      
-        .showAllDoctors > div,
-        .specialized_main > .doctor_card {
-          background-color: #fff;
-          padding: 15px;
-          border-radius: 6px;
-          width: 200px;
-          text-align: center;
-          box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-          transition: transform 0.2s ease;
-        }
-      
-        .showAllDoctors > div:hover,
-        .specialized_main > .doctor_card:hover {
-          transform: translateY(-3px);
-        }
-      
-        .showAllDoctors img,
-        .specialized_main img {
-          width: 100%;
-          height: auto;
-          border-radius: 4px;
-        }
-      
-        .doctor_card button {
-          margin-top: 10px;
-          background-color: #27ae60;
-        }
-      
-        .doctor_card button:hover {
-          background-color: #2ecc71;
-        }
-      
-        /* Appointment info display */
-        .show_patient_Appointment > div {
-          background-color: #fff;
-          padding: 10px;
-          margin: 5px;
-          border-radius: 4px;
-          box-shadow: 0 1px 3px rgba(0,0,0,0.1);
-          width: 100%;
-        }
-      
-        /* Hide elements with .active */
-        .active {
-          display: none;
-        }
+       body {
+  font-family: Arial, sans-serif;
+  background-color: #f2f4f7;
+  margin: 0;
+  padding: 0;
+}
+
+.wrapper_three {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+/* Top Buttons */
+.wrapper_three > button {
+  margin: 5px;
+  padding: 10px 15px;
+  border: none;
+  background-color: #2c3e50;
+  color: #fff;
+  font-size: 14px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.wrapper_three > button:hover {
+  background-color: #34495e;
+}
+
+/* Forms */
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  background-color: #fff;
+  padding: 15px;
+  margin-top: 15px;
+  border-radius: 6px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+form label {
+  font-weight: bold;
+}
+
+form input,
+form select {
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+form button {
+  padding: 10px;
+  background-color: #2980b9;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+form button:hover {
+  background-color: #3498db;
+}
+
+/* Show all doctors container */
+.showAllDoctors,
+.specialized_main,
+.show_patient_Appointment {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+  margin-top: 15px;
+}
+
+.showAllDoctors > div,
+.specialized_main > .doctor_card {
+  background-color: #fff;
+  padding: 15px;
+  border-radius: 6px;
+  width: 200px;
+  text-align: center;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  transition: transform 0.2s ease;
+}
+
+.showAllDoctors > div:hover,
+.specialized_main > .doctor_card:hover {
+  transform: translateY(-3px);
+}
+
+.showAllDoctors img,
+.specialized_main img {
+  width: 100%;
+  height: auto;
+  border-radius: 4px;
+}
+
+.doctor_card button {
+  margin-top: 10px;
+  background-color: #27ae60;
+}
+
+.doctor_card button:hover {
+  background-color: #2ecc71;
+}
+
+/* Appointment info display */
+.show_patient_Appointment > div {
+  background-color: #fff;
+  padding: 10px;
+  margin: 5px;
+  border-radius: 4px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+  width: 100%;
+}
+
+/* Hide elements with .active */
+.active {
+  display: none;
+}
+
+/* Prescription Card Styles */
+.card_container {
+  background-color: #fff;
+  padding: 15px;
+  border-radius: 6px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  margin-top: 15px;
+  max-width: 500px;
+}
+
+.patient_name {
+  font-weight: bold;
+  font-size: 16px;
+  margin-bottom: 5px;
+}
+
+.issue_date {
+  font-size: 14px;
+  color: #555;
+  margin-bottom: 5px;
+}
+
+.medi {
+  font-size: 14px;
+  margin-bottom: 5px;
+}
+
+.note {
+  font-style: italic;
+  color: #333;
+}
+
+.showPrescription {
+  margin-top: 20px;
+}
+
       </style>
       
       
@@ -140,7 +178,7 @@
                 <button class="main_page">Back</button>
                 <button class="logOut">Log-out</button>
                 <button class="fillForm">Patient Form</button>
-
+                 <button class="prescription_btn">See Prescription</button>
               <!-- sabhi doctors ko dikhao -->
                <div class="showAllDoctors">
                       
@@ -185,13 +223,7 @@
                         
                </div>
 
-               <div class="readPrescription">
-                <form class="get_prescription">
-                     <label for="get_adhar">Enter Adhar Number</label>
-                     <input type="text" placeholder="enter adhar number" id="get_adhar">
-                        <button id="get_btn">submit</button>
-                </form> 
-                    </div>
+              
                
             <div class="createPatient_Container">
                         <form class="patient_form">
@@ -215,6 +247,19 @@
                         </form>
             </div>
 
+             
+                  <div class="readPrescription">
+                               <form class="get_prescription">
+                                    <label for="get_adhar">Enter Adhar Number</label>
+                                    <input type="text" placeholder="enter adhar number" id="get_adhar">
+                                       <button id="get_btn">submit</button>
+                               </form> 
+                  </div>
+
+                  <div class="showPrescription">
+
+                  </div>
+
     </div>
     <script>
             document.addEventListener("DOMContentLoaded",async()=>{
@@ -229,14 +274,15 @@
                   let backBtn = document.querySelector(".main_page");
                   let logOutBtn = document.querySelector(".logOut");
                   let yourAppointmentBtn = document.querySelector(".yourAppointment_btn");
-                  let readform = document.querySelector(".get_prescription");
+                 
                   let parent_appointment_card = document.querySelector(".show_patient_Appointment");
                   //********************************************************************
-                  document.querySelector(".readPrescription").classList.add("active");
+                 
                    document.querySelector(".speacialized-btn").classList.add("active");
                   let patientform = document.querySelector(".patient_form");
                   let formbtn = document.querySelector(".fillForm");
                   document.querySelector(".createPatient_Container").classList.add("active");
+                
                   //**********************************************************************
                  specializedContainer.classList.add("active");
                  specializedMain.classList.add("active");
@@ -244,8 +290,11 @@
                    backBtn.classList.add("active");
                  parent_appointment_card.classList.add("active");
                  
-
-
+                 let readform = document.querySelector(".get_prescription");
+                 let showPrescription = document.querySelector(".showPrescription");
+                 let readPrescription = document.querySelector(".readPrescription");
+                      showPrescription.classList.add("active");
+                      readPrescription.classList.add("active");
                   
                   
                
@@ -367,11 +416,11 @@
 
                
                let docId ="";
-              function showDoctor(storeSpecializedDoctors){
+             function showDoctor(storeSpecializedDoctors){
                  
                 let parentElement = document.querySelector(".specialized_main");
                         parentElement.innerHTML="";
-                        console.log( storeSpecializedDoctors.doctor)
+                       
                 storeSpecializedDoctors.doctor.forEach((doctor)=>{
                    //ek card me ek doctor show ho 
                       
@@ -593,14 +642,7 @@
 
 
 
-                      readform.addEventListener("submit",(e)=>{
-                          let value = document.getElementById("get_adhar").value.trim();
-                          let adharNumber = parseInt(value);
-
-                          let data ={adharNumber};
-
-                          sendreadForm(data);
-                      })
+                     
 
 
 
@@ -677,6 +719,91 @@
 
                 })
              
+                let seeprescriptionBtn = document.querySelector(".prescription_btn");
+                  seeprescriptionBtn.addEventListener("click",(e)=>{
+                        e.preventDefault();
+                        showPrescription.classList.add("active");
+                      readPrescription.classList.remove("active");
+                      document.querySelector(".showAllDoctors").classList.add("active");
+                  })
+
+          async function sendreadForm(data){
+                   try{
+                let response = await fetch("http://localhost:4000/api/v1/get_prescription",{
+                       method:"POST",
+                       headers:{
+                          "Authorization":`Bearer ${token}`,
+                          "Content-Type":"application/json"
+                       },
+                       body:JSON.stringify(data)
+                });
+
+                let result = await response.json();
+                    if(result.success){
+                         alert(result.message);
+                        
+                         let data =result?.prescription;
+                        
+                        showPrescription.classList.remove("active");
+                      readPrescription.classList.add("active");
+                        
+                         showPatientPrescription(data);
+                     
+                    }else{
+                        alert(result.message);
+                    }
+
+            }catch(err){
+                    console.log(err);
+            }
+               }
+
+                  
+                
+                      readform.addEventListener("submit",(e)=>{
+                        e.preventDefault();
+                          let value = document.getElementById("get_adhar").value.trim();
+                         
+                          let adharNumber = parseInt(value);
+
+                          let data ={adharNumber};
+                            
+                          sendreadForm(data)
+                            
+                      })
+                        
+                     
+
+                    
+                         
+                 function    showPatientPrescription(data){
+                        showPrescription.innerHTML=""  ; 
+                        
+                        let card = document.createElement("div");
+                           card.className="card_container";
+                           let name = document.createElement("div");
+                              name.className="patient_name";
+                            let date = document.createElement("div");
+                              date.className="issue_date";
+                            let medicines = document.createElement("div");
+                              medicines.className="medi";
+                            let notes = document.createElement("div");
+                                notes.className="note";
+                              let med =  data?.medicines.toString();
+                                name.innerHTML="Patient Name :" + data?.userId?.name;
+                                medicines.innerHTML ="Medicines :" + med;
+                                let newDate = new Date(data?.date_issue).toLocaleDateString()
+                                date.innerHTML ="Date_Issue ON:" + newDate ;
+                                notes.innerHTML ="Notes :" + data?.notes;
+
+                                card.append(name,date,med,notes);
+
+                                showPrescription.appendChild(card);
+                 }
+
+                
+
+               
             })
     </script>
     </body>
