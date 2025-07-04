@@ -6,101 +6,139 @@
     <title>Doctor-Page</title>
    <style>
   body {
-    font-family: Arial, sans-serif;
-    background: #f0f2f5;
-    margin: 0;
-    padding: 0;
-  }
+  font-family: Arial, sans-serif;
+  background: #f0f2f5;
+  margin: 0;
+  padding: 0;
+}
 
-  .wrapper {
-    max-width: 1200px;
-    margin: auto;
-    padding: 20px;
-  }
+.wrapper {
+  max-width: 1200px;
+  margin: auto;
+  padding: 20px;
+}
 
-  button {
-    padding: 10px 20px;
-    margin: 10px 5px;
-    border: none;
-    background: #007bff;
-    color: white;
-    border-radius: 5px;
-    cursor: pointer;
-  }
+/* Top Buttons */
+button {
+  padding: 10px 20px;
+  margin: 10px 5px;
+  border: none;
+  background: #007bff;
+  color: white;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
 
-  button:hover {
-    background: #0056b3;
-  }
+button:hover {
+  background: #0056b3;
+}
 
-  form {
-    background: #fff;
-    padding: 15px;
-    margin: 20px 0;
-    border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0,0,0,0.1);
-  }
+/* Form Styling */
+form {
+  background: #fff;
+  padding: 15px;
+  margin: 20px 0;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
 
-  form label {
-    display: block;
-    margin-bottom: 5px;
-    font-weight: bold;
-  }
+form label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: bold;
+}
 
-  form input {
-    width: 100%;
-    padding: 8px;
-    margin-bottom: 15px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-  }
+form input {
+  width: 100%;
+  padding: 8px;
+  margin-bottom: 15px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
 
-  .allPatient, .showPrescription {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 15px;
-  }
+/* All Patients & Prescription Grid */
+.allPatient,
+.showPrescription {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 15px;
+}
 
-  .card_patient, .card_container {
-    background: white;
-    padding: 15px;
-    border-radius: 8px;
-    box-shadow: 0 0 5px rgba(0,0,0,0.1);
-  }
+/* Patient Card Styling */
+.card_patient,
+.card_container {
+  background: #fff;
+  padding: 15px;
+  border-radius: 8px;
+  box-shadow: 0 0 5px rgba(0,0,0,0.1);
+}
 
-  .card_patient div, .card_container div {
-    margin-bottom: 8px;
-  }
+.card_patient div,
+.card_container div {
+  margin-bottom: 8px;
+}
 
-  .active {
-    display: none;
-  }
+/* Write Prescription Section */
+.writePrescription {
+  margin-top: 20px;
+}
 
-  .writePrescription, .readPrescription {
-    margin-top: 20px;
-  }
+/* Read Prescription Section */
+.readPrescription {
+  margin-top: 20px;
+}
 
-  .patient_name {
-    font-weight: bold;
-    color: #333;
-  }
+/* Hide elements */
+.active {
+  display: none;
+}
 
-  .medi {
-    color: #555;
-  }
+/* Prescription Details Styling */
+.patient_name {
+  font-weight: bold;
+  color: #333;
+}
 
-  .note {
-    font-style: italic;
-    color: #777;
-  }
+.medi {
+  color: #555;
+}
 
-  .issue_date {
-    font-size: 0.9rem;
-    color: #999;
-  }
+.note {
+  font-style: italic;
+  color: #777;
+}
 
-  .active{
-      display: none;
-  }
+.issue_date {
+  font-size: 0.9rem;
+  color: #999;
+}
+
+/* Additional Button Styling inside .card_patient */
+.card_patient button {
+  padding: 8px 14px;
+  margin-top: 8px;
+  background: #28a745;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.card_patient button:hover {
+  background: #218838;
+}
+
+/* Button in .delete_btn if needed */
+.delete_btn {
+  background: #dc3545;
+}
+
+.delete_btn:hover {
+  background: #c82333;
+}
+
 </style>
 
 </head>
@@ -391,6 +429,9 @@
 
                                 showPrescription.appendChild(card);
                  }
+
+
+
           let deletePrescription = document.querySelector(".delete_btn");
                   
 
