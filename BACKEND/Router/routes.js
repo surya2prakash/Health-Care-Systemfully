@@ -64,7 +64,7 @@ const {book_Appointment_one} = require("../Controller/Book_AppointMent/createAp"
 
 const {deleteAppointment} = require("../Controller/Book_AppointMent/deleteAp");
 
-const {getYourAppointment, getSingleAppointment} = require("../Controller/Book_AppointMent/readAp");
+const {getYourAppointment, getSingleAppointment ,userAppointment} = require("../Controller/Book_AppointMent/readAp");
 
 const{updatePatientAppointment} = require("../Controller/Book_AppointMent/updateAp")
 
@@ -116,9 +116,9 @@ route.get("/patient",auth,isDoctor,singlePatient);
 //sirf admin hi change kre ga------------------
 //------------------------------------------------
 
-route.post("/doctor/:id",auth,isAdmin,createDoctor);
+route.post("/doctor",auth,isAdmin,createDoctor);
 route.patch("/update_doctor/:id",auth,isAdmin,doctorUpdateDetails);
-route.delete("/remove_doctor",auth,isAdmin,deleteDoctor);
+route.delete("/remove_doctor/:id",auth,isAdmin,deleteDoctor);
 
 //---------------------------------------------------------------
 //common for all ---- sab use krenge Admin,Patient,Doctor
@@ -127,7 +127,7 @@ route.get("/getAll",auth,getAllDoctor);
 
 route.get("/get/:id",auth,getSingleDoctor);
 
-route.get("/get_specialization",auth,getSpecialization );
+route.post("/get_specialization",auth,getSpecialization );
 
 
 
@@ -145,9 +145,11 @@ route.delete("/delete_appointment/:id",auth,deleteAppointment);
 //-------------------------------------------------------------------
 route.get("/getAllbooked",auth,isDoctor,getYourAppointment);
 
-route.get("/getSingleAp/:id",auth,isDoctor,getSingleAppointment);
+//route.get("/getSingleAp/:id",auth,isDoctor,getSingleAppointment);
 
 route.patch("/update_appointment/:id",auth,isDoctor,updatePatientAppointment);
+
+route.get("/getyourAppointment",auth,userAppointment);
 
 
 
@@ -161,7 +163,7 @@ route.delete("/remove_prescription/:id",auth,deletePrescription);
 
 //-------------------------------------------------------------------------
 
-route.get("/get_prescription",auth,readPrescription);
+route.post("/get_prescription",auth,readPrescription);
 
 
 //------------------------------------------------------------------------------
