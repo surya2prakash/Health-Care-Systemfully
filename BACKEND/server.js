@@ -17,6 +17,14 @@ const PORT = process.env.PORT || 8000;
 const connect = require("./Storage/storage");
 connect();
 
+const cors = require("cors");
+
+app.use(cors({
+    origin:"http://127.0.0.1:5500",
+    methods:["GET","POST","PATCH","DELETE"],
+    credentials:true
+}))
+
 const routes = require("./Router/routes");
 app.use("/api/v1",routes);
 
