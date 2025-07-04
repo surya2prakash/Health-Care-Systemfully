@@ -22,7 +22,7 @@ const doctorSchema = new mongoose.Schema({
     available:{
         days:{
             type:[String],
-        enum: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
+        enum: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
 
         required:true
         },
