@@ -7,16 +7,10 @@ exports.createDoctor= async(req,res)=>{
     try{
 
               
-          const id = req.params.id;
+         
 
-          if(!id){
-            return res.status(404).json({
-              success:false,
-              message:"Doctor Id not Found."
-            })
-          }
-
-          const {specialization, available} = req.body;
+          
+          const { email,specialization, available} = req.body;
 
           //input me mail aaya hai ya nhi check kro
           
@@ -27,23 +21,40 @@ exports.createDoctor= async(req,res)=>{
                 message:" Please fill All the Input .."
             })
           };
+           
+          if(!email){
+            return res.status(404).json({
+              success:false,
+              message:"Doctor email not Found."
+            })
+          }
 
         //   //check kro pahle se hai ya nhi 
 
-          const doctor = await Doctor.findOne({doctorId:id});
-
-          if(doctor){
+          const doctor = await User.findOne({email:email});
+          
+          if(!doctor){
             return res.status(404).json({
                 success:false,
-                message:"Doctor already exist.."
+                message:"Doctor Not exist.."
             })
           };
 
           //ager mil gya to 
-                
+        
+          //check kro pahle se specialization aur time de to nhi diya
+
+          const checkDocotor = await Doctor.findOne({doctorId:doctor._id});
+
+          if(checkDocotor){
+            return res.status(400).json({
+              success:false,
+              message:"Doctor Profile Already Created.. "
+            })
+          }
         
 
-          const createDoctor = await Doctor.create({doctorId:id,
+          const createDoctor = await Doctor.create({doctorId:doctor._id,
                                                         specialization,
                                                     available
                                                 });

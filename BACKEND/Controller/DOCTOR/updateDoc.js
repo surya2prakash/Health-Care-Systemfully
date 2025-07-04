@@ -28,7 +28,7 @@ exports.doctorUpdateDetails= async(req,res)=>{
             })
         };
 
-          const checkDoctor = await Doctor.findByIdAndUpdate(id,{available:available},{new:true})
+          const checkDoctor = await Doctor.findOneAndUpdate({doctorId:id},{available:available},{new:true});
 
         if(!checkDoctor){
             return res.status(400).json({

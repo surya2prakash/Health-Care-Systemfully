@@ -33,6 +33,17 @@ exports.prescriptionCreate =async(req,res)=>{
           })
          };
 
+         //check kro pahle se prescription to nhi diya hai
+
+         const checkprescription = await Prescription.findOne({appointmentId:id});
+          
+         if(checkprescription){
+          return res.status(400).json({
+            success:false,
+            message:"Prescription Already Given.."
+          })
+         }
+
          let {medicines,notes} = req.body;
 
          if(!medicines || !Array.isArray(medicines) || medicines.length === 0 ){

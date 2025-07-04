@@ -7,19 +7,19 @@ const User = require("../../Model/user");
 
 exports.deleteDoctor = async(req,res)=>{
     try{
-        const {email} = req.body;
+        const id = req.params.id;
 
-       if(!email){
+       if(!id){
         return res.status(404).json({
             success:false,
-            message:"Fill the Email Id .."
+            message:"Fill  Id Not found .."
         })
        };
 
        //email Id mil gai
-      const userFind = await User.findOne({email:email,role:"Doctor"});
+      const userFind = await User.findByIdAndDelete(id);
       
-      console.log(userFind);
+      
      
       if(!userFind){
         return res.status(400).json({
@@ -27,9 +27,9 @@ exports.deleteDoctor = async(req,res)=>{
             message:"Doctor Not FOund."
         })
        };
-       const deleteFromDoctorSchema = await Doctor.findOneAndDelete({doctorId:userFind._id});
-       const user = await User.findByIdAndDelete(userFind.id);
-     
+      
+      
+      const deleteFromDoctorSchema = await Doctor.findOneAndDelete({doctorId:id});
 
       
 

@@ -4,26 +4,23 @@ const Patient = require("../../Model/patient");
 
 const User = require("../../Model/user");
 
-const Appointment = require("../../Model/appointment");
-
-
 exports.createPatient = async(req,res)=>{
     try{
            
         // information from body ---->
         //take adhar Number as a unique Id ---->
-        let {name,gender,phoneNumber,age,adharNumber} = req.body;
+        let {gender,phoneNumber,age,adharNumber} = req.body;
 
         const id= req.user.id;
 
-          if(!name || !gender || !phoneNumber || !age || !adharNumber){
+          if( !gender || !phoneNumber || !age || !adharNumber){
             return res.status(409).json({
                 success:false,
                 message:"Please fill all the details"
             })
           }
 
-
+           let user = await User.findById(id);
         //check kro pahle se to nhi hai patient ---->
 
         const existingPatient = await Patient.findOne({adharNumber,userId:id});
@@ -41,7 +38,7 @@ exports.createPatient = async(req,res)=>{
         //create kro ---->
 
         const newPatient = new Patient({
-            name,
+            name:user.name,
             age,
             gender,
             phoneNumber,

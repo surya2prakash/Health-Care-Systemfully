@@ -7,7 +7,7 @@ exports.deletePrescription = async(req,res)=>{
         //id le lo parameter se 
 
         const prescriptionId = req.params.id;
-
+          
     
         //check kro doctor 
 

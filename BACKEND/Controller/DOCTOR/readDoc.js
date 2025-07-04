@@ -15,7 +15,7 @@ exports.getSpecialization = async(req,res)=>{
 
         //check kro doctor hai bhi yaa nhi doctor db me ---->
 
-        const doctorPresent = await Doctor.findOne({specialization});
+        const doctorPresent = await Doctor.find({specialization}).populate("doctorId","name");
 
         if(!doctorPresent){
             return res.status(404).json({

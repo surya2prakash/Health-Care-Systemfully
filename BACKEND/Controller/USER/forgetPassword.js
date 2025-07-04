@@ -24,7 +24,7 @@ exports.forgetPass = async(req,res)=>{
         const existUser = await User.findOne({email});
 
         if(!existUser){
-            return res.status(409).json({
+            return res.status(400).json({
                 success:false,
                 message:'User Not Exist ,Create account .'
             })

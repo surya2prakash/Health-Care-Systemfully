@@ -21,7 +21,7 @@ exports.book_Appointment_one = async(req,res)=>{
         //check kro user ne same doctor ke pass pahle se to aapointment book nhi kiya hai
 
 
-        const isbook = await Appointment.findOne({userId:userId,doctorId:id})
+        const isbook = await Appointment.findOne({userId:userId})
 
         if(isbook){
             return res.status(500).json({
@@ -32,14 +32,18 @@ exports.book_Appointment_one = async(req,res)=>{
 
         
         //date select kro ---->
-        let {AppointmentDate} = req.body;
+        let {appointmentDate} = req.body;
         //esse me doctors ko filter kr lunga
+
+        
             
-        const [day, month, year] = AppointmentDate.split("-");
-             const newDate = new Date(`${year}-${month}-${day}`);
+        const newDate = new Date(appointmentDate);
+
 
         let today = new Date();
-          today.setHours(0,0,0,0);
+         today.setHours(0, 0, 0, 0);
+          newDate.setHours(0, 0, 0, 0);
+         
 
         if(newDate < today){
             return res.status(500).json({
@@ -62,7 +66,7 @@ exports.book_Appointment_one = async(req,res)=>{
           let book = await Appointment.create({
               userId,
               doctorId:id,
-              AppointmentDate:newDate,
+              appointmentDate:newDate,
           })
           
           return  res.status(200).json({

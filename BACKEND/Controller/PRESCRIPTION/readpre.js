@@ -29,11 +29,12 @@ exports.readPrescription = async(req,res)=>{
              };
 
              //ager mil gya hai to 
-
+               
              const id = user.userId;
-
-             const userfound = await Prescription.findOne({userId:id});
-
+                
+                
+             const userfound = await Prescription.findOne({userId:id}).populate("userId").exec();
+                
              if(!userfound){
                 return res.status(404).json({
                     success:false,
