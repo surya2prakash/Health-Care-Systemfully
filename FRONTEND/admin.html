@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin-Page</title>
+    <style>
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    body {
+        background-color: #f5f7fa;
+        color: #333;
+        line-height: 1.6;
+        padding: 20px;
+    }
+
+    .wrapper {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 20px;
+    }
+
+    /* Button Styles */
+    button {
+        padding: 10px 20px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        font-weight: 600;
+        transition: all 0.3s ease;
+        margin: 5px;
+    }
+
+    .btn_create {
+        background-color: #4CAF50;
+        color: white;
+    }
+
+    .btn_create:hover {
+        background-color: #45a049;
+    }
+
+    .back {
+        background-color: #2196F3;
+        color: white;
+    }
+
+    .back:hover {
+        background-color: #0b7dda;
+    }
+
+    .logOut {
+        background-color: #f44336;
+        color: white;
+    }
+
+    .logOut:hover {
+        background-color: #da190b;
+    }
+
+    .btn, .update_btn {
+        background-color: #673AB7;
+        color: white;
+        width: 100%;
+        padding: 12px;
+        margin-top: 15px;
+    }
+
+    .btn:hover, .update_btn:hover {
+        background-color: #5e35b1;
+    }
+
+    /* Form Containers */
+    .doctor_container, .update_container {
+        background-color: white;
+        border-radius: 10px;
+        padding: 25px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        margin: 20px 0;
+        
+    }
+
+
+    .doctor_form, .update_form {
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    /* Form Elements */
+    label {
+        font-weight: 600;
+        margin-bottom: -10px;
+    }
+
+    input, select {
+        padding: 12px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        font-size: 16px;
+    }
+
+    input:focus, select:focus {
+        outline: none;
+        border-color: #673AB7;
+        box-shadow: 0 0 5px rgba(103, 58, 183, 0.5);
+    }
+
+    /* Doctors List */
+    .showAllDoctors {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+        gap: 20px;
+        margin-top: 30px;
+    }
+
+    
+    .showAllDoctors div {
+        background-color: white;
+        border-radius: 10px;
+        padding: 20px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        transition: transform 0.3s ease;
+    }
+
+    .showAllDoctors div:hover {
+        transform: translateY(-5px);
+    }
+
+    .showAllDoctors img {
+        width: 100%;
+        height: 200px;
+        object-fit: cover;
+        border-radius: 5px;
+        margin-bottom: 15px;
+    }
+
+    .showAllDoctors p {
+        font-size: 18px;
+        font-weight: 600;
+        margin-bottom: 15px;
+        color: #333;
+    }
+
+    .showAllDoctors button {
+        width: 100%;
+        margin: 5px 0;
+    }
+
+    .showAllDoctors button:first-of-type {
+        background-color: #FF9800;
+        color: white;
+    }
+
+    .showAllDoctors button:first-of-type:hover {
+        background-color: #e68a00;
+    }
+
+    .showAllDoctors button:last-of-type {
+        background-color: #f44336;
+        color: white;
+    }
+
+    .showAllDoctors button:last-of-type:hover {
+        background-color: #da190b;
+    }
+
+    /* Header buttons */
+    .wrapper > button {
+        display: inline-block;
+        margin-right: 10px;
+    }
+
+    /* Responsive adjustments */
+    @media (max-width: 768px) {
+        .showAllDoctors {
+            grid-template-columns: 1fr;
+        }
+        
+        .wrapper > button {
+            display: block;
+            width: 100%;
+            margin-bottom: 10px;
+        }
+    }
+
+   .active{
+    display: none;
+   }
+</style>
+</head>
+<body>
+    <div class="wrapper">
+                     <button class="btn_create">Create-Doctor Profile</button>
+                     <button class="back">Back</button>
+                     <button class="logOut">Log-out</button>
+
+                     <!-- sabhi doctors ko dikhao -->
+               <div class="showAllDoctors">
+                      
+               </div>
+               
+
+               <div class="doctor_container">
+                    <form class="doctor_form">
+                          <label for="email">Email</label>
+                          <input type="email" placeholder="enter doctor email" id="email">
+                              <label for="special">Specialization</label>
+                              <select name="special" id="special">
+                                <option value="">--Select--</option>
+                                <option value="General Physician">General Physician</option>
+                                <option value="Cardiologist">Cardiologist</option>
+                                <option value="Neurologist">Neurologist</option>
+                                <option value="Dermatologist">Dermatologist</option>
+                                <option value="Pediatrician">Pediatrician</option>
+                                <option value="Gynecologist">Gynecologist</option>
+                                <option value="Orthopedic">Orthopedic</option>
+                                <option value="Dentist">Dentist</option>
+                                <option value="Psychiatrist">Psychiatrist</option>
+                                <option value="ENT Specialist">ENT Specialist</option>
+                              </select>
+
+                        <label for="days">Available-Days</label>
+                         <select name="days" id="days">
+                            <option value="">--Select--</option>
+                            <option value="Monday,Tuesday,WednessDay">Monday,Tuesday,WednessDay</option>
+                             <option value="Thursday, Friday, Saturday">Thursday,Friday,Saturday</option>
+                            </select>
+
+                            <label for="start_time">Start Time:</label>
+                            <input type="time" placeholder="enter Time" id="start_time">
+                            <label for="end_time">End Time</label>
+                            <input type="time" id="end_time">
+                            
+                               <button class="btn">Submit</button>
+                               </form> 
+               </div>
+
+               <div class="update_container">
+                          <form class="update_form">
+                             <label for="update_days">Available-Days</label>
+                         <select name="update_days" id="update_days">
+                            <option value="">--Select--</option>
+                            <option value="Monday,Tuesday,WednessDay">Monday,Tuesday,WednessDay</option>
+                             <option value="Thursday, Friday, Saturday">Thursday,Friday,Saturday</option>
+                            </select>
+
+                            <label for="update_start_time">Start Time:</label>
+                            <input type="time" placeholder="enter Time" id="update_start_time">
+                            <label for="update_end_time">End Time</label>
+                            <input type="time" id="update_end_time">
+                            
+                               <button class="update_btn">Submit</button>
+                          </form>
+               </div>
+
+                
+    </div>
+    <script>
+           document.addEventListener("DOMContentLoaded",async()=>{
+
+
+
+
+
+
+                    const token = window.localStorage.getItem("token"); 
+                   document.querySelector(".doctor_container").classList.add("active");
+                   document.querySelector(".update_container").classList.add("active");
+                   
+
+                 let create_doctor_form = document.querySelector(".doctor_form");
+                let update_doctor_form = document.querySelector(".update_form");
+                   
+              let backBtn = document.querySelector(".back");
+
+              backBtn.addEventListener("click",(e)=>{
+                    window.location.reload();
+              });
+
+              let logOut = document.querySelector(".logOut");
+               logOut.addEventListener("click",(e)=>{
+                e.preventDefault();
+                window.localStorage.removeItem("token");
+                window.location.href="index.html";
+               })
+                
+
+                   let createBtn = document.querySelector(".btn_create");
+                    let getAllDoctors=[];
+
+                async function AllDoctor(){
+                          try{
+                    let response = await fetch("http://localhost:4000/api/v1/getAll",{
+                        method:"GET",
+                        headers:{
+                            "Authorization":`Bearer ${token}`,
+                            "Content-Type":"application/json"
+                        },
+                        
+                    });
+
+                    let result =await response.json();
+
+                        if(result.success){
+                            
+                           getAllDoctors=[...result.Doctors];
+                          
+                        }else{
+                            alert(result.message);
+                        }
+                    }catch(err){
+                        console.error(err);
+                    }
+
+                }    
+
+                      await  AllDoctor();
+
+                      let updated_ID ="";
+                      let delete_ID ="";
+
+                        let ShowAll = document.querySelector(".showAllDoctors");
+                        ShowAll.innerHTML="";
+                    getAllDoctors.forEach((doctor)=>{
+                         
+                       let card = document.createElement("div");
+                       let imageTag = document.createElement("img");
+                 imageTag.setAttribute("src", "./assites/ChatGPT Image Jul 2, 2025, 11_38_00 AM.png");
+                          imageTag.setAttribute("alt", "Doctor Image");
+                         let update_btn = document.createElement("button");
+                            update_btn.setAttribute("id",`${doctor?._id}`);
+                         let delete_btn = document.createElement("button");
+                            delete_btn.setAttribute("id",`${doctor?._id}`);  
+                            update_btn.innerText="Update-Day & Time" ;
+                            delete_btn.innerText="Remove Doctor";
+                       
+                        let head = document.createElement("p");
+                            head.innerHTML =`${doctor?.name}`
+                            card.appendChild(imageTag);
+                                card.appendChild(head);
+                                card.appendChild(update_btn);
+                                card.appendChild(delete_btn);
+                              ShowAll.appendChild(card);
+
+                              update_btn.addEventListener("click",(e)=>{
+                                e.preventDefault();
+                                 updated_ID =  update_btn.getAttribute("id");
+                                  
+                               //doctor ke liye update form show krna hai
+                                 document.querySelector(".showAllDoctors").classList.add("active");
+                                 document.querySelector(".doctor_container").classList.add("active");
+                                  document.querySelector(".update_container").classList.remove("active");
+                                  
+
+                              });
+
+                              delete_btn.addEventListener("click",(e)=>{
+                                e.preventDefault();
+                                delete_ID= delete_btn.getAttribute("id");
+                                
+                                 removeDoc(delete_ID);
+                              });
+                              
+                    });
+
+                       async function removeDoc(delete_ID) {
+                          try{
+
+                            let response =await fetch(`http://localhost:4000/api/v1/remove_doctor/${delete_ID}`,{
+                                method:"DELETE",
+                                headers:{
+                                    "Authorization":`Bearer ${token}`,
+                                    "Content-Type":"application/json"
+                                }
+                            })
+                           let result = await response.json();
+                          if(result.success){
+                            alert(result.message);
+                            window.location.reload();
+                          }else{
+                            alert(result.message);
+                          }
+
+                          }catch(err){
+                              console.error(err);
+                          }
+                       }
+               createBtn.addEventListener("click",(e)=>{
+                    e.preventDefault();
+                    document.querySelector(".update_container").classList.add("active");
+                    document.querySelector(".showAllDoctors").classList.add("active")
+                       document.querySelector(".doctor_container").classList.remove("active");
+                      
+
+               })
+                
+                  async function updateDoctor(data,updated_ID) {
+                        try{
+
+                            let response = await fetch(`http://localhost:4000/api/v1/update_doctor/${updated_ID}`,{
+                                method:"PATCH",
+                                headers:{
+                                    "Authorization":`Bearer ${token}`,
+                                    "Content-Type":"application/json"
+                                },
+                                body:JSON.stringify(data)
+                            })
+
+                            let result = await response.json();
+                            if(result.success){
+                                alert(result.message);
+                             }else{
+                                alert(result.message);
+                             }
+
+                        }catch(err){
+                           console.error(err);
+                        }
+                 }
+
+
+               update_doctor_form.addEventListener("submit",(e)=>{
+                  e.preventDefault();
+                  let day = document.getElementById("update_days").value;
+                  let start = document.getElementById("update_start_time").value;
+                  let end = document.getElementById("update_end_time").value;
+                     let days =day.split(",").map(da =>{da});
+                     let available ={days,start,end};
+                        let data ={available};
+
+                     updateDoctor(data,updated_ID);
+               })
+                
+                 async function createDoctor(data) {
+                        try{
+
+                            let response = await fetch("http://localhost:4000/api/v1/doctor",{
+                                method:"POST",
+                                headers:{
+                                    "Authorization":`Bearer ${token}`,
+                                    "Content-Type":"application/json"
+                                },
+                                body:JSON.stringify(data)
+                            })
+
+                            let result = await response.json();
+                             if(result.success){
+                                alert(result.message);
+                             }else{
+                                alert(result.message);
+                             }
+
+                        }catch(err){
+                           console.error(err);
+                        }
+                 }
+
+               create_doctor_form.addEventListener("submit",(e)=>{
+                e.preventDefault();
+                let email = document.getElementById("email").value.trim();
+                
+                  let specialization = document.getElementById("special").value;  
+                 let day = document.getElementById("days").value;
+                  let start = document.getElementById("start_time").value;
+                  let end = document.getElementById("end_time").value;
+                     let days =day.split(",").map(da =>{da});
+                     let available ={days,start,end};
+                        let data ={email,specialization,available};
+                        createDoctor(data);
+               })
+           })
+    </script>
+</body>
+</html>
